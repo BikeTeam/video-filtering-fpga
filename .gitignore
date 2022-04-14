@@ -10,6 +10,7 @@ simulation/qsim/
 // Ignore simulation files
 
 // Ignore temporal files created based on Verilog modules
+*.bak*
 *.v.bak*
 *.do.bak*
 
