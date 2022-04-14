@@ -25,7 +25,8 @@ architecture kernel_aplyer_arch of kernel_aplyer is
 	signal mulA, mulB, mulC : signed(2*ww-1 downto 0);
 	signal mulD, mulE, mulF : signed(2*ww-1 downto 0);
 	signal mulG, mulH, mulI : signed(2*ww-1 downto 0);
-	signal valid_buff : std_logic;
+	signal qA, qB, qC : signed (21 downto 0);
+	signal valid_buff0, valid_buff1: std_logic;
 	component multiplier is
 		generic (
 			i_w : integer := 9
@@ -78,11 +79,16 @@ begin
 	process (clk)
 	begin
 		if rising_edge(clk) then
-			valid_buff <= valid;
-			pvalid <= valid_buff;
-			q <= resize(mulA, q'length) + resize(mulB, q'length) + resize(mulC, q'length) + 
-				  resize(mulD, q'length) + resize(mulE, q'length) + resize(mulF, q'length) + 
-				  resize(mulG, q'length) + resize(mulH, q'length) + resize(mulI, q'length);
+			valid_buff0 <= valid;
+			valid_buff1 <= valid_buff0; 
+			pvalid <= valid_buff0;
+			qA <= resize(mulA, q'length) + resize(mulB, q'length) + resize(mulC, q'length);
+			qB <= resize(mulD, q'length) + resize(mulE, q'length) + resize(mulF, q'length);
+			qC <= resize(mulG, q'length) + resize(mulH, q'length) + resize(mulI, q'length);
+			q <= qA + qB + qC;
+			--q <= resize(mulA, q'length) + resize(mulB, q'length) + resize(mulC, q'length) + 
+			--	  resize(mulD, q'length) + resize(mulE, q'length) + resize(mulF, q'length) + 
+			--	  resize(mulG, q'length) + resize(mulH, q'length) + resize(mulI, q'length);
 		end if;
 	end process;
 end kernel_aplyer_arch;
